@@ -1,7 +1,12 @@
 pragma solidity ^0.4.19;
 import "./ownable.sol";
+import "./safemath.sol";
 
 contract ZombieFactory is Ownable {
+    using SafeMath for uint256;
+    using SafeMath32 for uint32;
+    using SafeMath16 for uint16;
+
     event NewZombie(uint zombieId, string name, uint dna);
 
     uint dnaDigits = 16;
@@ -23,11 +28,13 @@ contract ZombieFactory is Ownable {
     mapping(address => uint) ownerZombieCount;
 
     function _createZombie(string _name, uint _dna) internal {
+        // เราเลือกที่จะไม่ป้องกันปัญหาของปี 2038We ... ดังนั้นจึงไม่จำเป็น
+        // ที่จะต้องกังวลเกี่ยวกับ overflows ภายใน readyTime  ;)
         uint id = zombies.push(
             Zombie(_name, _dna, 1, uint32(now + cooldownTime), 0, 0)
         ) - 1;
         zombieToOwner[id] = msg.sender;
-        ownerZombieCount[msg.sender]++;
+        ownerZombieCount[msg.sender] = ownerZombieCount[msg.sender].add(1);
         NewZombie(id, _name, _dna);
     }
 

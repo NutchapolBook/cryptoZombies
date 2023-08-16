@@ -3,7 +3,7 @@
     "@openzeppelin/contracts": "^4.9.3",
     "loom-truffle-provider": "^0.13.0",
     "truffle-hdwallet-provider": "^1.0.17",
-    "web3": "^4.0.2"
+    "web3": "^4.1.0"
   },
   "devDependencies": {
     "prettier": "^3.0.1",

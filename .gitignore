@@ -1,3 +1,4 @@
-*.js
 node_modules
 buildmainnet_private_key
+build
+sol**.js

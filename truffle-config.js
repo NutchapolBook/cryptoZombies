@@ -78,12 +78,12 @@ module.exports = {
     // You should run a client (like ganache, geth, or parity) in a separate terminal
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
-    //
-    // development: {
-    //  host: "127.0.0.1",     // Localhost (default: none)
-    //  port: 8545,            // Standard Ethereum port (default: none)
-    //  network_id: "*",       // Any network (default: none)
-    // },
+    development: {
+     host: "127.0.0.1",     // Localhost (default: none)
+     port: 8545,            // Standard Ethereum port (default: none)
+     network_id: "*",       // Any network (default: none)
+     gas: 9500000
+    },
     //
     // An additional network, but with some advanced options…
     // advanced: {
@@ -115,7 +115,7 @@ module.exports = {
     mainnet: {
       provider: function () {
         // Setting the provider with the Infura Mainnet address and Token
-        return new HDWalletProvider(mnemonic, "https://mainnet.infura.io/v3/YOUR_TOKEN")
+        return new HDWalletProvider(mnemonic, "https://mainnet.infura.io/v3/600f4a8399d44e3b83e3b3ea564a542a")
       },
       network_id: "1"
     },
@@ -124,18 +124,35 @@ module.exports = {
       // Special function to setup the provider
       provider: function () {
         // Setting the provider with the Infura Rinkeby address and Token
-        return new HDWalletProvider(mnemonic, "https://rinkeby.infura.io/v3/YOUR_TOKEN")
+        return new HDWalletProvider(mnemonic, "https://rinkeby.infura.io/v3/600f4a8399d44e3b83e3b3ea564a542a")
       },
       // Network id is 4 for Rinkeby
       network_id: 4
     },
+    // loom_testnet: {
+    //   provider: function () {
+    //     const privateKey = 'YOUR_PRIVATE_KEY'
+    //     const chainId = 'extdev-plasma-us1';
+    //     const writeUrl = 'http://extdev-plasma-us1.dappchains.com:80/rpc';
+    //     const readUrl = 'http://extdev-plasma-us1.dappchains.com:80/query';
+    //     return new LoomTruffleProvider(chainId, writeUrl, readUrl, privateKey);
+    //   },
+    //   network_id: '9545242630824'
+    // },
     loom_testnet: {
       provider: function () {
-        const privateKey = 'YOUR_PRIVATE_KEY'
+        // Never reveal your private key! We are only doing this for the sake of simplicity.
+        // A much safer solution would be to save your private key into a file 
+        // and read its value from that file.If you do this, 
+        // make sure you avoid pushing the file in which you saved your private key to GitHub, 
+        // where anyone can see it.
+        const privateKey = 'YOUR_PRIVATE_KEY';
         const chainId = 'extdev-plasma-us1';
-        const writeUrl = 'http://extdev-plasma-us1.dappchains.com:80/rpc';
-        const readUrl = 'http://extdev-plasma-us1.dappchains.com:80/query';
-        return new LoomTruffleProvider(chainId, writeUrl, readUrl, privateKey);
+        const writeUrl = 'wss://extdev-basechain-us1.dappchains.com/websocket';
+        const readUrl = 'wss://extdev-basechain-us1.dappchains.com/queryws';
+        const loomTruffleProvider = new LoomTruffleProvider(chainId, writeUrl, readUrl, privateKey);
+        loomTruffleProvider.createExtraAccountsFromMnemonic(mnemonic, 10);
+        return loomTruffleProvider;
       },
       network_id: '9545242630824'
     },

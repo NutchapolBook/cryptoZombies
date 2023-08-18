@@ -1,14 +1,13 @@
-import Web3 from 'web3';
-
 const web3 = new Web3('http://localhost:8545');
-var cryptoZombies;
-var userAccount;
+let cryptoZombies;
+let userAccount;
 
 function startApp() {
-  var cryptoZombiesAddress = "YOUR_CONTRACT_ADDRESS"
+  const cryptoZombiesAddress = "YOUR_CONTRACT_ADDRESS"
+  const cryptoZombiesABI = "cryptoZombiesABI"
   cryptoZombies = new web3js.eth.Contract(cryptoZombiesABI, cryptoZombiesAddress);
 
-  var accountInterval = setInterval(function () {
+  let accountInterval = setInterval(function () {
     // ดูว่าได้เปลี่ยนบัญชีรึเปล่า
     if (web3.eth.accounts[0] !== userAccount) {
       userAccount = web3.eth.accounts[0];
@@ -111,14 +110,20 @@ function getZombiesByOwner(owner) {
 }
 
 window.addEventListener('load', function () {
-  // เช็คว่าได้เพิ่ม Web3 ไปยัง browser แล้วหรือยัง (Mist/MetaMask)
+  // check if web3 is available (Mist/MetaMask)
   if (typeof web3 !== 'undefined') {
-    // ใช้ provider ของ Mist/MetaMask
+    // Request access to the user's MetaMask account
     web3js = new Web3(web3.currentProvider);
+    window.ethereum.enable();
+    // Get the user's accounts
+    web3.eth.getAccounts().then(function (accounts) {
+      // Show the first account
+      document.getElementById('log').innerHTML =
+        'Connected with MetaMask account: ' + accounts[0];
+    });
   } else {
-    // จัดการกับกรณีที่ผู้ใช้ยังไม่มี web3. โดยที่สามารถ
-    // แสดง message ที่จะเตือนให้ลง MetaMask
-    // ถ้าหากจะใช้ application ของเรา
+    // If web3 is not available, give instructions to install MetaMask
+    document.getElementById('log').innerHTML = 'Please install MetaMask to connect with the Ethereum network';
   }
 
   // ในตอนนี้ก็จะสามารถเริ่มการใช้งานแอพฯ ของเราได้แล้ว และยังสามารถเข้าถึง web3js ได้อย่างอิสระอีกด้วย:

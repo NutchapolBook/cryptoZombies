@@ -1,7 +1,7 @@
 pragma solidity 0.5.0;
 
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "./EthPriceOracleInterface.sol";
-import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 contract CallerContract is Ownable {
     uint256 private ethPrice;

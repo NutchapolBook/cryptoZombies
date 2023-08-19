@@ -12,6 +12,7 @@
   },
   "scripts": {
     "prettier": "prettier --write --plugin=prettier-plugin-solidity 'contracts/**/*.sol'",
-    "lint": "prettier --list-different --plugin=prettier-plugin-solidity 'contracts/**/*.sol'"
+    "lint": "prettier --list-different --plugin=prettier-plugin-solidity 'contracts/**/*.sol'",
+    "test": "truffle test"
   }
 }

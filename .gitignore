@@ -2,3 +2,5 @@ node_modules
 buildmainnet_private_key
 build
 sol**.js
+package-lock.json
+.gitkeep

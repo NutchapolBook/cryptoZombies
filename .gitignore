@@ -4,3 +4,5 @@ build
 sol**.js
 package-lock.json
 .gitkeep
+oracle_private_key
+caller_private_key
